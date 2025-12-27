@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 48 96% 89%;
+    --success: 142 76% 36%;
+    --success-foreground: 355 7% 97%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+}
+
+/* Global animation keyframes */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) }
+  50% { transform: translateY(-6px) }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-heart {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.8; }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    background-attachment: fixed;
+    background-image: linear-gradient(135deg, #0f172a 0%, #111827 50%, #0b1220 100%);
+  }
+  h1, h2, h3, h4, h5, h6, label, strong, .font-bold {
+    font-weight: 700;
+  }
+  /* Light mode: ensure white text inside dark boxes */
+  :root .bg-slate-800, :root .bg-slate-900,
+  :root .bg-gray-800,  :root .bg-gray-900 {
+    color: #fff !important;
+  }
+  :root input.bg-slate-800::placeholder,
+  :root textarea.bg-slate-800::placeholder,
+  :root input.bg-slate-900::placeholder,
+  :root textarea.bg-slate-900::placeholder,
+  :root input.bg-gray-800::placeholder,
+  :root textarea.bg-gray-800::placeholder,
+  :root input.bg-gray-900::placeholder,
+  :root textarea.bg-gray-900::placeholder {
+    color: rgba(255,255,255,0.75) !important;
+  }
+}
+
+@layer components {
+  /* Glassmorphism surface */
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-xl;
+  }
+
+  /* Fancy hover for cards */
+  .card-hover {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl;
+  }
+
+  /* Buttons micro-interaction */
+  .button-press {
+    @apply active:scale-[0.98] transition-transform duration-150;
+  }
+
+  /* Inputs focus ring */
+  .input-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-900;
+  }
+
+  /* Smooth default transitions */
+  .smooth {
+    @apply transition-colors transition-shadow transition-transform duration-300 ease-out;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation: fade-in 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+  .glow {
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.15), 0 8px 30px rgba(59,130,246,0.25);
+  }
+  .shimmer {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+  }
+  .pulse-heart {
+    animation: pulse-heart 2s ease-in-out infinite;
+  }
+  .bg-gradient-radial {
+    background-image: radial-gradient(ellipse at center, rgba(59,130,246,0.25), rgba(59,130,246,0) 60%);
+  }
+  .fancy-scrollbar {
+    scrollbar-width: thin;
+  }
+  .fancy-scrollbar::-webkit-scrollbar {
+    width: 8px; height: 8px;
+  }
+  .fancy-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #60a5fa, #34d399);
+    border-radius: 9999px;
+  }
+}
+
+/* Fix for Leaflet map rendering issues */
+.leaflet-container {
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 1 !important;
+}
+
+.leaflet-tile {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Ensure map tiles load properly */
+.leaflet-tile-container {
+  will-change: transform;
+}
